@@ -1,0 +1,46 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+    <meta name="renderer" content="webkit"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Two+Tone" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/mdui@2/mdui.css">
+    <script src="https://unpkg.com/mdui@2/mdui.global.js">
+        import 'mdui/components/navigation-rail.js';
+        import 'mdui/components/navigation-rail-item.js';
+        import 'mdui/components/icon.js';
+        import 'mdui/components/top-app-bar.js';
+        import 'mdui/components/top-app-bar-title.js';
+        import  'mdui/functions/setTheme.js';
+        import 'mdui/components/fab.js';
+    </script>    
+    <title>OpenwrtRT Project</title>
+  </head>
+  <mdui-top-app-bar>
+    <mdui-button-icon icon="search"></mdui-button-icon>
+    <mdui-top-app-bar-title>OpenwrtRT固件选择器</mdui-top-app-bar-title>
+    <div style="flex-grow: 1"></div>
+  </mdui-top-app-bar>
+  <mdui-list>
+    <mdui-collapse accordion>
+      <mdui-collapse-item>
+        <mdui-list-item slot="header" icon="router">小米WR30U</mdui-list-item>
+        <div style="margin-left: 2.5rem">
+          <mdui-list-item>CPU：MT7981<br>内存：256M<br>闪存：128M</mdui-list-item>
+          <mdui-list-item>固件类型：sysupgrade 安装方法：在openwrt底包内刷入</mdui-list-item>
+          <mdui-fab extended icon="download" href="https://github.com/openwrt-RT/openwrt-rt.github.io/releases/download/immortalwrt/immortalwrt-mediatek-filogic-xiaomi_mi-router-wr30u-112m-nmbm-squashfs-sysupgrade.bin">下载</mdui-fab>
+        </div>
+      </mdui-collapse-item>
+      <mdui-collapse-item>
+        <mdui-list-item slot="header" icon="router">华硕ACRH17(RT-AC42U)</mdui-list-item>
+        <div style="margin-left: 2.5rem">
+            <mdui-list-item>CPU：IPQ4019<br>内存：256M<br>闪存：128M</mdui-list-item>
+            <mdui-list-item>固件类型：sysupgrade(预发布) 安装方法：在openwrt底包内刷入</mdui-list-item>
+            <mdui-fab extended icon="download" href="https://github.com/openwrt-RT/openwrt-rt.github.io/releases/download/immortalwrt/immortalwrt-23.05.2-056fd4679b82-ipq40xx-generic-asus_rt-ac42u-squashfs-sysupgrade.bin">下载</mdui-fab>
+        </div>
+      </mdui-collapse-item>
+    </mdui-collapse>
+  </mdui-list>

@@ -1,0 +1,92 @@
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/mdui@2/mdui.css">
+    <script src="https://unpkg.com/mdui@2/mdui.global.js">
+        import 'mdui/components/navigation-rail.js';
+        import 'mdui/components/navigation-rail-item.js';
+        import 'mdui/components/icon.js';
+        import 'mdui/components/top-app-bar.js';
+        import 'mdui/components/top-app-bar-title.js';
+        import  'mdui/functions/setTheme.js';
+        import 'mdui/components/fab.js';
+    </script>    
+</head>
+<!doctype html>
+<html lang="zh-CN" class="mdui-theme-auto">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+    <meta name="renderer" content="webkit"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Two+Tone" rel="stylesheet">
+    <title>OpenwrtRT Project</title>
+  </head>
+  <body>
+    <mdui-navigation-rail value="project" ><!---->
+        <mdui-navigation-rail-item icon="router" value="project" href="#project">项目</mdui-navigation-rail-item>
+        <mdui-navigation-rail-item icon="leak_add" value="modules" href="#modules">特性</mdui-navigation-rail-item>
+        <mdui-navigation-rail-item icon="download" value="download" href="#download">下载</mdui-navigation-rail-item>
+        <mdui-navigation-rail-item icon="info" value="about">关于</mdui-navigation-rail-item>
+        <mdui-navigation-rail-item icon="refresh" value="reload" href="javascript:location.reload();">重载</mdui-navigation-rail-item>
+    </mdui-navigation-rail>
+
+    <div class="mdui-prose" id="project">
+        <h1>OpenwrtRT Project</h1>
+        <h2>为低功耗设备编译的Openwrt</h2>
+        <h3>OpenWrt 项目是一个针对嵌入式设备的 Linux 操作系统。OpenWrt 没有尝试创建单个静态固件，而是提供了一个具有包管理功能的完全可写文件系统。这使您摆脱了供应商提供的应用程序选择和配置，并允许您通过使用软件包来定制设备以适应任何应用程序。对于开发人员来说，OpenWrt 是构建应用程序的框架，而无需围绕它构建完整的固件;对于用户来说，这意味着能够完全定制，以从未设想过的方式使用设备。<br>OpenWrt 是一个高度可扩展的 GNU/Linux 发行版，用于嵌入式设备（通常是无线路由器）。与这些路由器的许多其他发行版不同，OpenWrt是从头开始构建的，是一个功能齐全、易于修改的路由器操作系统。在实践中，这意味着您可以拥有所需的所有功能，而不会出现任何臃肿，由比大多数其他发行版更新的 Linux 内核提供支持。<br>OpenWrt 没有尝试创建单个静态固件，而是提供了一个完全可写的文件系统，并提供了可选的包管理。这使您摆脱了供应商提供的应用程序选择和配置的限制，并允许您使用软件包自定义嵌入式设备以适应任何应用程序。对于开发人员来说，OpenWrt 提供了一个框架来构建应用程序，而无需创建完整的固件映像和围绕它的发行版。对于用户来说，这意味着完全定制的自由，允许以供应商从未设想过的方式使用嵌入式设备。</h3>
+        <table>
+      
+        </table>
+      </div>
+      <div class="mdui-prose" id="modules">
+        <h1>特性</h1>
+        <mdui-tabs value="tab-1">
+            <mdui-tab value="tab-1" icon="apps">软件包数量</mdui-tab>
+            <mdui-tab value="tab-2" icon="more_time">启动时间</mdui-tab>
+            <mdui-tab value="tab-3" icon="switch_access_shortcut_add">特殊优化</mdui-tab>
+            <mdui-tab value="tab-4" icon="add_chart">超频</mdui-tab>
+          
+            <mdui-tab-panel slot="panel" value="tab-1">
+                <h2>相比于其他固件，OpenwrtRT提供了更少的软件包，但这些软件包都经过检查，以提供尽可能多的功能和稳定性，和尽可能少的空间和占用</h2>
+                <h3>默认包含的软件包（仅列出一部分）：</h3>
+                <mdui-list>
+                    <mdui-list-subheader>对于基于ImmortalWRT</mdui-list-subheader>
+                    <mdui-list-item>Upnp</mdui-list-item>
+                    <mdui-list-item>CPU频率调节</mdui-list-item>
+                    <mdui-list-item>系统自动更新</mdui-list-item>
+                    <mdui-list-item>信道分析</mdui-list-item>
+                  </mdui-list>
+                  <mdui-list>
+                    <mdui-list-subheader>对于基于LEDE</mdui-list-subheader>
+                    <mdui-list-item>Upnp</mdui-list-item>
+                    <mdui-list-item>ACC网络加速</mdui-list-item>
+                    <mdui-list-item>OpenClash</mdui-list-item>
+                    <mdui-list-item>内存释放</mdui-list-item>
+                  </mdui-list>
+                  <mdui-list>
+                    <mdui-list-subheader>对于基于原版Openwrt</mdui-list-subheader>
+                    <mdui-list-item>USB打印机</mdui-list-item>
+                    <mdui-list-item>Upnp</mdui-list-item>
+                  </mdui-list>
+            </mdui-tab-panel>
+            <mdui-tab-panel slot="panel" value="tab-2">
+                <h2>相比于其他固件，OpenwrtRT的启动时间更快，如：在小米R3G上，原版系统启动需要约120秒，而OpenwrtRT仅需60-80秒。这可使用户更加快捷地访问互联网</h2>
+            </mdui-tab-panel>
+            <mdui-tab-panel slot="panel" value="tab-3">
+                <h2>针对一些特定机型，OpenwrtRT会增加特定优化包括但不限于：软件包、驱动、主题、更换固件版本等。给用户带来更好，更流畅的体验。</h2>
+            </mdui-tab-panel>
+            <mdui-tab-panel slot="panel" value="tab-4">
+                <h2>针对一些特定机型，OpenwrtRT会对CPU进行适当的超频以提升启动速度，如在Phicomm K2P中，将CPU超频至1000Mhz来提升启动响应速度，但又保持系统的稳定性与合理的发热。通常openwrtRT会使超频后的CPU温度稳定在30-60度。</h2>
+            </mdui-tab-panel>
+          </mdui-tabs>
+      </div>
+      <div class="mdui-prose" id="download">
+        <h1>下载</h1>
+        <h3>使用固件选择器来快速下载固件</h3>
+        <mdui-fab extended icon="download" href="frimware.html">打开固件选择器</mdui-fab>
+        
+      </div>
+  </body>
+</html>
