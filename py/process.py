@@ -1,4 +1,4 @@
-import soul-knight-data-processing
+import soul_knight_data_processing
 import os
 import fnmatch
 
