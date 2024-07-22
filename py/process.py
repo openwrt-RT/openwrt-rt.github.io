@@ -1,4 +1,4 @@
-import SKD
+import soul-knight-data-processing
 import os
 import fnmatch
 
