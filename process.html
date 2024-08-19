@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>元气骑士存档 加密/解密 工具在线版</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        #output { margin-top: 20px; white-space: pre-wrap; }
+    </style>
+    <!-- 引入CryptoJS库 -->
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.js"></script>
+</head>
+<body>
+    <h1>元气骑士存档 加密/解密 工具在线版</h1>
+    <h2>作者：adfcfgvbgbh</h2>
+    
+    <input type="file" id="fileInput" />
+    <br><br>
+    <button id="decryptButton">解密文件</button>
+    <button id="encryptButton">加密文件</button>
+    <div id="output"></div>
+
+    <script>
+        const keys = {
+            game: 'smg',
+            data: 'iambo',
+            statistic: 'crstl'
+        };
+
+        // 使用 TextEncoder 将字符串转为 Uint8Array，用于加密
+        function stringToUint8Array(str) {
+            const encoder = new TextEncoder();
+            return encoder.encode(str);
+        }
+
+        // 使用 TextDecoder 将 Uint8Array 转为字符串
+        function uint8ArrayToString(arr) {
+            const decoder = new TextDecoder();
+            return decoder.decode(arr);
+        }
+
+        // XOR加密/解密函数
+        function xorCrypt(text, password) {
+            let result = '';
+            for (let i = 0; i < text.length; i++) {
+                const charCode = text.charCodeAt(i) ^
+                    password.charCodeAt(i % password.length) ^
+                    (i % 15) * (i % 5) % 92;
+                result += String.fromCharCode(charCode);
+            }
+            return result;
+        }
+
+        // DES-EDE3加密/解密函数，使用CryptoJS库
+        function desCrypt(text, password, encrypt = false) {
+            const ivString = xorCrypt(String.fromCharCode(...[0x11, 0x20, 0x35, 0x35, 0x20, 0x23]), 'PASSWORD');
+            const iv = CryptoJS.enc.Utf8.parse(ivString.slice(0, 8));  // 使用UTF-8编码解析IV
+
+            if (encrypt) {
+                // 将文本转换为 Uint8Array 对象
+                const textWordArray = CryptoJS.enc.Utf8.parse(text);
+
+                // 使用 Triple DES 加密
+                const encrypted = CryptoJS.TripleDES.encrypt(
+                    textWordArray,
+                    CryptoJS.enc.Utf8.parse(password),
+                    { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }
+                );
+                return encrypted.toString(); // 将加密后的结果转换为 Base64 字符串
+            } else {
+                // 使用 Triple DES 解密
+                const decrypted = CryptoJS.TripleDES.decrypt(
+                    { ciphertext: CryptoJS.enc.Base64.parse(text) },
+                    CryptoJS.enc.Utf8.parse(password),
+                    { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }
+                );
+                return CryptoJS.enc.Utf8.stringify(decrypted); // 将解密后的结果转换为字符串
+            }
+}
+
+
+        function readFileAsText(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsText(file);
+            });
+        }
+
+        document.getElementById('decryptButton').addEventListener('click', async () => {
+            const fileInput = document.getElementById('fileInput');
+            if (fileInput.files.length === 0) {
+                alert('你没有选择文件！');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const fileName = file.name.split('.').slice(0, -1).join('.'); // 获取不带扩展名的文件名
+            let decryptedData = '';
+
+            try {
+                const content = await readFileAsText(file);
+                
+                if (fileName === 'game') {
+                    console.log("Using XOR mode with game key.");
+                    decryptedData = xorCrypt(content, keys["game"]);
+                } else if (fileName.startsWith("task_") || fileName.startsWith("item_data_") ||
+                           fileName.startsWith("season_data_") || fileName.startsWith("moonrise_data_") ||
+                           fileName.startsWith("mall_reload_data_")) {
+                    console.log("Using DES mode with data key.");
+                    decryptedData = desCrypt(content, keys["data"]);
+                } else if (fileName.startsWith("statistic")) {
+                    console.log("Using DES mode with statistic key.");
+                    decryptedData = desCrypt(content, keys["statistic"]);
+                } else {
+                    alert('明文，不作处理');
+                    return;
+                }
+
+                // 显示解密后的数据
+                document.getElementById('output').textContent = decryptedData;
+
+                // 允许用户下载解密后的文件
+                const blob = new Blob([decryptedData], { type: 'text/plain' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = fileName + '_decrypted.json';
+                link.textContent = 'Download decrypted file   '+fileName + '_decrypted.json';
+                document.getElementById('output').appendChild(document.createElement('br'));
+                document.getElementById('output').appendChild(link);
+
+            } catch (error) {
+                console.error(error);
+                alert('解密时出错！');
+            }
+        });
+
+        document.getElementById('encryptButton').addEventListener('click', async () => {
+            const fileInput = document.getElementById('fileInput');
+            if (fileInput.files.length === 0) {
+                alert('你没有选择文件！');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const fileName = file.name.split('.').slice(0, -1).join('.'); // 获取不带扩展名的文件名
+            let encryptedData = '';
+
+            try {
+                const content = await readFileAsText(file);
+
+                if (fileName === 'game') {
+                    console.log("Using XOR mode with game key.");
+                    encryptedData = xorCrypt(content, keys["game"]);
+                } else if (fileName.startsWith("task_") || fileName.startsWith("item_data_") ||
+                           fileName.startsWith("season_data_") || fileName.startsWith("moonrise_data_") ||
+                           fileName.startsWith("mall_reload_data_")) {
+                    console.log("Using DES mode with data key.");
+                    encryptedData = desCrypt(content, keys["data"], true);
+                } else if (fileName.startsWith("statistic")) {
+                    console.log("Using DES mode with statistic key.");
+                    encryptedData = desCrypt(content, keys["statistic"], true);
+                } else {
+                    alert('File is plaintext, nothing to do.');
+                    return;
+                }
+
+                // 允许用户下载加密后的文件
+                const blob = new Blob([encryptedData], { type: 'application/octet-stream' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = fileName + '_encrypted.data';
+                link.textContent = 'Download encrypted file   '+fileName + '_encrypted.data';
+                document.getElementById('output').appendChild(document.createElement('br'));
+                document.getElementById('output').appendChild(link);
+
+            } catch (error) {
+                console.error(error);
+                alert('加密时出错！');
+            }
+        });
+    </script>
+</body>
+</html>
